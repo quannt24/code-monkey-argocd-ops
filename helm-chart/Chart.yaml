@@ -1,0 +1,19 @@
+apiVersion: v2
+name: code-monkey-argocd
+description: A Helm chart for bootstraping argo/argo-cd chart
+type: application
+version: 0.0.0
+home: https://github.com/quannt24/code-monkey-argocd-ops
+icon: https://argo-cd.readthedocs.io/en/stable/assets/logo.png
+keywords:
+  - argoproj
+  - argocd
+  - gitops
+maintainers:
+  - name: quannt24
+    url: https://github.com/quannt24
+
+dependencies:
+  - name: argo-cd
+    version: 8.0.0
+    repository: "https://argoproj.github.io/argo-helm"

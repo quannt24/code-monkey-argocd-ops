@@ -1,0 +1,18 @@
+global:
+  domain: argocd.localhost
+
+argo-cd:
+  configs:
+    cm:
+      create: true
+
+      # Additional account are created in environment specific values file
+      # Add an additional local user with apiKey and login capabilities
+      #   apiKey - allows generating API keys
+      #   login - allows to login using UI
+      #accounts.<account_name>: apiKey, login
+      accounts.readonly: login
+      # Disable user. User is enabled by default
+      accounts.readonly.enabled: "true"
+
+      accounts.developer: login
