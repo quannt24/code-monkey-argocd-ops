@@ -10,25 +10,50 @@ In admin workstation, install age and create key pair:
 
 ```bash
 mkdir -p secret
-## Generate key pair
+# Generate key pair
 age-keygen -o secret/keys.txt
 
-## Output similar to:
-##  # created: 2025-03-24T10:17:48+07:00
-##  # public key: age13xcxxcns...
-##  AGE-SECRET-KEY-1FMVW0ZNFJ9ZJ...
+# Output similar to:
+#  # created: 2025-03-24T10:17:48+07:00
+#  # public key: age13xcxxcns...
+#  AGE-SECRET-KEY-1FMVW0ZNFJ9ZJ...
 
 cp ~/.config/sops/age/keys.txt ~/.config/sops/age/keys.txt.old
 cat secret/keys.txt >> ~/.config/sops/age/keys.txt
 
-## AGE_KEYS_BASE64=$(cat secret/keys.txt | base64 -w0)
 AGE_PUBLIC_KEY=$(grep "public key" secret/keys.txt | cut -d ":" -f2 | tr -d " ")
 echo "creation_rules:" > local.sops.yaml
 echo "  - age: >-" >> local.sops.yaml
 echo "     $AGE_PUBLIC_KEY" >> local.sops.yaml
+
+# Create local-secret.values.dec.yaml
+AGE_SECRET_KEY=$(cat secret/code-monkey-local-keys.txt | grep AGE-SECRET-KEY)
+echo "secrets:" > helm-chart/local-secret.values.dec.yaml
+echo "  data:" >> helm-chart/local-secret.values.dec.yaml
+echo "    - name: helm-secrets-private-keys" >> helm-chart/local-secret.values.dec.yaml
+echo "      namespace: argocd" >> helm-chart/local-secret.values.dec.yaml
+echo "      type: Opaque" >> helm-chart/local-secret.values.dec.yaml
+echo "      data:" >> helm-chart/local-secret.values.dec.yaml
+echo "        keys.txt: |" >> helm-chart/local-secret.values.dec.yaml
+echo "          $AGE_SECRET_KEY" >> helm-chart/local-secret.values.dec.yaml
+
+# Encrypt local-secret.values.dec.yaml
+sops --config local.sops.yaml -e helm-chart/local-secret.values.dec.yaml > helm-chart/local-secret.values.yaml
 ```
 
-Note: keys.txt can be deleted afterward, or should be kept in secured place.
+In the end, following files are created in admin workstation:
+- `secret/keys.txt`: Can be deleted afterward, or should be kept in secured place.
+- `~/.config/sops/age/keys.txt`: For editing encrypted files later.
+- `local.sops.yaml`: Environment specific sops config file, specifying which public key (recipient)
+  should be used for encryption.
+- Following files SHOULD NOT be tracked to git because they are specific for a local environment,
+  and multiple developers SHOULD have different local environments.
+  + `local.sops.yaml`
+  + `local-secret.values.yaml`
+  + `local-secret.values.dec.yaml`
+- However, encrypted files for integration environments SHOULD be tracked, for example:
+  + `qa.sops.yaml`
+  + `qa-secret.values.yaml`
 
 ### Test helm secrets template
 
