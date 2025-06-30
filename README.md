@@ -41,7 +41,8 @@ echo "      namespace: argocd" >> helm-chart/local-secret.values.dec.yaml
 echo "      type: Opaque" >> helm-chart/local-secret.values.dec.yaml
 echo "      data:" >> helm-chart/local-secret.values.dec.yaml
 echo "        keys.txt: |" >> helm-chart/local-secret.values.dec.yaml
-echo "          $AGE_SECRET_KEY" >> helm-chart/local-secret.values.dec.yaml
+AGE_SECRET_KEY_BASE64=$(echo $AGE_SECRET_KEY | base64 -w0)
+echo "          $AGE_SECRET_KEY_BASE64" >> helm-chart/local-secret.values.dec.yaml
 
 # Encrypt local-secret.values.dec.yaml
 sops --config local.sops.yaml -e helm-chart/local-secret.values.dec.yaml > helm-chart/local-secret.values.yaml
@@ -100,14 +101,14 @@ cd helm-chart
 
 ## Test the template
 helm dependency build
-helm template -n argocd argocd . -f values.yaml -f {env}.values.yaml -f {env}-secret.values.yaml
+helm secrets template -n argocd argocd . -f values.yaml -f {env}.values.yaml -f {env}-secret.values.yaml
 
 ## If helm does not recognize kubectl config
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
 ## With installation of plugins, argocd-repo-server could take several minutes to initialize
 ## and probably restarted several times; be patient!
-helm upgrade -i -n argocd argocd . -f values.yaml -f {env}.values.yaml -f {env}-secret.values.yaml
+helm secrets upgrade -i -n argocd argocd . -f values.yaml -f {env}.values.yaml -f {env}-secret.values.yaml
 ## Watch initialization
 ## kubectl get pod -n argocd -w
 ```
