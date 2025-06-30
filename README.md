@@ -4,14 +4,20 @@ This repository contains documentation and configs for setting up ArgoCD
 
 ## Install ArgoCD
 
-### Prepare sops age key
+### Prepare sops age key (informative)
+
+Note: For simplicity, `code-monkey-local-keys.txt` is pre-generated. Following steps are just
+informative and guidelines for generating keys for other environments.
+
+WARNING: Code-monkey-local-keys.txt is publicly known, for the purpose of demonstration.
+Please do not use it for protected environments.
 
 In admin workstation, install age and create key pair:
 
 ```bash
 mkdir -p secret
 # Generate key pair
-age-keygen -o secret/keys.txt
+age-keygen -o secret/code-monkey-local-keys.txt
 
 # Output similar to:
 #  # created: 2025-03-24T10:17:48+07:00
@@ -19,9 +25,9 @@ age-keygen -o secret/keys.txt
 #  AGE-SECRET-KEY-1FMVW0ZNFJ9ZJ...
 
 cp ~/.config/sops/age/keys.txt ~/.config/sops/age/keys.txt.old
-cat secret/keys.txt >> ~/.config/sops/age/keys.txt
+cat secret/code-monkey-local-keys.txt >> ~/.config/sops/age/keys.txt
 
-AGE_PUBLIC_KEY=$(grep "public key" secret/keys.txt | cut -d ":" -f2 | tr -d " ")
+AGE_PUBLIC_KEY=$(grep "public key" secret/code-monkey-local-keys.txt | cut -d ":" -f2 | tr -d " ")
 echo "creation_rules:" > local.sops.yaml
 echo "  - age: >-" >> local.sops.yaml
 echo "     $AGE_PUBLIC_KEY" >> local.sops.yaml

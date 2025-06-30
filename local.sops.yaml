@@ -1,0 +1,5 @@
+creation_rules:
+  # WARNING: This key pair is publicly known, for the purpose of demonstration.
+  # Please do not use it for protected environments.
+  - age: >-
+     age10s4608esauwjqgelw4g44euau02g5er3e5yecx4ex5gfcxdcdcms2xnrv3

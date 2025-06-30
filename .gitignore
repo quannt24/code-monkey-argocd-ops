@@ -3,16 +3,10 @@
 secret/
 *secret.yaml
 
-# Each developer should have their own local.sops.yaml
-local.sops.yaml
 # Special case for sample-app, we track the sample local-secret.values.dec.yaml,
 # but not tracking local specific local-secret.values.yaml.
 sample-app/local-secret.values.yaml
 
-# Typically, environment specific secret values can be tracked after encryption.
-# However, for local environment, each user will have different secrets,
-# so we ignore the file, and it must be recreated by each user.
-helm-chart/local-secret.values.yaml
 helm-chart/local-secret.values.dec.yaml
 
 charts/
