@@ -16,4 +16,5 @@ maintainers:
 dependencies:
   - name: argo-cd
     version: 8.0.0
-    repository: "https://argoproj.github.io/argo-helm"
+    # repository: "https://argoproj.github.io/argo-helm"
+    repository: "@argo"

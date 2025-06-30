@@ -120,7 +120,7 @@ You can find the password by running:
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
 
-## Add new ArgoCD users
+## Add new ArgoCD users (informative)
 
 - Update `argocd-rbac-cm.yml` for required roles and groups
 - Update `argocd-cm.yml` (argo-cd chart) to add `accounts.<username>` entries
