@@ -42,11 +42,11 @@ argo-cd:
         # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 
         # https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-2-ssl-termination-at-ingress-controller
-        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-      tls: true
+        # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        # nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      tls: false
     certificate:
-      enabled: true
+      enabled: false
       # rootca-cluster-issuer is deployed by common-app
       # The certificate will not be available until the issuer is ready
       # If immediate access is needed, comment out this issuer config
@@ -57,9 +57,10 @@ argo-cd:
     # If TLS is terminated by IngressController, need to add ingress for gRPC
     ingressGrpc:
       enabled: true
+      ingressClassName: cilium
       annotations:
         ingress.cilium.io/host-listener-port: "9001"
-      tls: true
+      tls: false
 
   # https://github.com/jkroepke/helm-secrets/wiki/ArgoCD-Integration#option-1-custom-docker-image
   repoServer:
