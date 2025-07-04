@@ -29,6 +29,7 @@ argo-cd:
       ingressClassName: cilium
       annotations:
         ingress.cilium.io/host-listener-port: "8001"
+        ingress.cilium.io/force-https: "disabled"
         # https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#kubernetesingress-nginx
 
         # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
@@ -60,6 +61,7 @@ argo-cd:
       ingressClassName: cilium
       annotations:
         ingress.cilium.io/host-listener-port: "9001"
+        ingress.cilium.io/force-https: "disabled"
       tls: false
 
   # https://github.com/jkroepke/helm-secrets/wiki/ArgoCD-Integration#option-1-custom-docker-image
