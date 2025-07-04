@@ -101,14 +101,22 @@ cd helm-chart
 
 ## Test the template
 helm dependency build
-helm secrets template -n argocd argocd . -f values.yaml -f {env}.values.yaml -f {env}-secret.values.yaml
+helm secrets template -n argocd argocd . \
+  -f values.yaml \
+  -f ${ENV}.values.yaml \
+  -f ${ENV}-secret.values.yaml \
+  --set argo-cd.server.certificate.enabled=false
 
 ## If helm does not recognize kubectl config
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
 ## With installation of plugins, argocd-repo-server could take several minutes to initialize
 ## and probably restarted several times; be patient!
-helm secrets upgrade -i -n argocd argocd . -f values.yaml -f {env}.values.yaml -f {env}-secret.values.yaml
+helm secrets upgrade -i -n argocd argocd . \
+  -f values.yaml \
+  -f ${ENV}.values.yaml \
+  -f ${ENV}-secret.values.yaml \
+  --set argo-cd.server.certificate.enabled=false
 ## Watch initialization
 ## kubectl get pod -n argocd -w
 ```
@@ -118,7 +126,7 @@ Helm will call helm-secrets because it is registered as downloader plugin.
 You can find the password by running:
 
 ```bash
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+echo $(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
 ```
 
 ## Add new ArgoCD users (informative)

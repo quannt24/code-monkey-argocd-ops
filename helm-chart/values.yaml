@@ -2,7 +2,7 @@
 # https://argoproj.github.io/argo-helm
 
 global:
-  domain: argocd.localhost
+  domain: argocd.local
 
 argo-cd:
   configs:
