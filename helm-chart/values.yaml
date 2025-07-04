@@ -28,6 +28,7 @@ argo-cd:
       enabled: true
       ingressClassName: cilium
       annotations:
+        ingress.cilium.io/host-listener-port: "8001"
         # https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#kubernetesingress-nginx
 
         # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
@@ -56,6 +57,8 @@ argo-cd:
     # If TLS is terminated by IngressController, need to add ingress for gRPC
     ingressGrpc:
       enabled: true
+      annotations:
+        ingress.cilium.io/host-listener-port: "9001"
       tls: true
 
   # https://github.com/jkroepke/helm-secrets/wiki/ArgoCD-Integration#option-1-custom-docker-image
