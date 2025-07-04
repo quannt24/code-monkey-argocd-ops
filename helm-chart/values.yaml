@@ -28,7 +28,7 @@ argo-cd:
       enabled: true
       ingressClassName: cilium
       annotations:
-        ingress.cilium.io/host-listener-port: "8001"
+        # ingress.cilium.io/host-listener-port: "8001"
         ingress.cilium.io/force-https: "disabled"
         # https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#kubernetesingress-nginx
 
@@ -60,7 +60,7 @@ argo-cd:
       enabled: true
       ingressClassName: cilium
       annotations:
-        ingress.cilium.io/host-listener-port: "9001"
+        # ingress.cilium.io/host-listener-port: "9001"
         ingress.cilium.io/force-https: "disabled"
       tls: false
 
