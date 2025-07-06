@@ -1,0 +1,30 @@
+{{- if .Values.appsApp.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: apps-app
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: {{ .Values.appsApp.repoURL }}
+    targetRevision: {{ .Values.appsApp.targetRevision }}
+    path: {{ .Values.appsApp.path }}
+    helm:
+      valueFiles:
+        - values.yaml
+        - {{ .Values.appsApp.env }}.values.yaml
+      releaseName: appsApp
+  destination:
+    # Running ArgoCD in the destination K8s cluster
+    server: https://kubernetes.default.svc
+    namespace: default
+
+  syncPolicy:
+    # syncOptions:
+    #   - CreateNamespace=true
+    automated:
+      # selfHeal: true
+      prune: true
+{{- end }}

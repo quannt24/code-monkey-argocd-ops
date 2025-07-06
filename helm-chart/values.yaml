@@ -29,8 +29,6 @@ argo-cd:
       ingressClassName: cilium
       annotations:
         ingress.cilium.io/force-https: "disabled"
-        # ingress.cilium.io/force-https-redirect: "false"
-        # ingress.cilium.io/secure-backends: "false"
         # https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#kubernetesingress-nginx
 
         # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
@@ -62,8 +60,6 @@ argo-cd:
       ingressClassName: cilium
       annotations:
         ingress.cilium.io/force-https: "disabled"
-        # ingress.cilium.io/force-https-redirect: "false"
-        # ingress.cilium.io/secure-backends: "false"
       tls: false
 
   # https://github.com/jkroepke/helm-secrets/wiki/ArgoCD-Integration#option-1-custom-docker-image
@@ -85,3 +81,11 @@ argo-cd:
     volumeMounts:
       - mountPath: /helm-secrets-private-keys/
         name: helm-secrets-private-keys
+
+appsApp:
+  enabled: false
+  # Environent specific parameters
+  # env: local
+  # repoURL: git@github.com:quannt24/code-monkey-apps-ops.git
+  # targetRevision: trunk
+  # path: helm-chart

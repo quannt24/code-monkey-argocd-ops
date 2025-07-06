@@ -16,3 +16,11 @@ argo-cd:
       accounts.readonly.enabled: "true"
 
       accounts.developer: login
+
+# Enable bootstrap application of applications
+appsApp:
+  enabled: true
+  env: local
+  repoURL: git@github.com:quannt24/code-monkey-apps-ops.git
+  targetRevision: trunk
+  path: helm-chart
