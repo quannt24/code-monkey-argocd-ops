@@ -24,6 +24,15 @@ argo-cd:
       create: false
 
   server:
+    certificate:
+      enabled: true
+      # root-ca-cluster-issuer is deployed by cert-manager-app
+      # The certificate will not be available until the issuer is ready
+      # If immediate access is needed, comment out this issuer config
+      issuer:
+        kind: ClusterIssuer
+        name: code-monkey-root-ca-cluster-issuer
+
     ingress:
       enabled: true
       ingressClassName: cilium
@@ -44,15 +53,7 @@ argo-cd:
         # https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-2-ssl-termination-at-ingress-controller
         # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         # nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-      tls: false
-    certificate:
-      enabled: false
-      # rootca-cluster-issuer is deployed by common-app
-      # The certificate will not be available until the issuer is ready
-      # If immediate access is needed, comment out this issuer config
-      issuer:
-        kind: ClusterIssuer
-        name: rootca-cluster-issuer
+      tls: true
 
     # If TLS is terminated by IngressController, need to add ingress for gRPC
     ingressGrpc:
@@ -60,7 +61,7 @@ argo-cd:
       ingressClassName: cilium
       annotations:
         ingress.cilium.io/force-https: "disabled"
-      tls: false
+      tls: true
 
   # https://github.com/jkroepke/helm-secrets/wiki/ArgoCD-Integration#option-1-custom-docker-image
   repoServer:
