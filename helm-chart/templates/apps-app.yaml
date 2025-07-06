@@ -15,7 +15,7 @@ spec:
       valueFiles:
         - values.yaml
         - {{ .Values.appsApp.env }}.values.yaml
-      releaseName: appsApp
+      releaseName: apps-app
   destination:
     # Running ArgoCD in the destination K8s cluster
     server: https://kubernetes.default.svc
