@@ -36,31 +36,16 @@ argo-cd:
     ingress:
       enabled: true
       ingressClassName: cilium
-      annotations:
-        ingress.cilium.io/force-https: "disabled"
-        # https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#kubernetesingress-nginx
-
-        # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        # Note that the nginx.ingress.kubernetes.io/ssl-passthrough annotation requires that
-        # the --enable-ssl-passthrough flag be added to the command line arguments to
-        # nginx-ingress-controller.
-        # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-
-        # If you encounter a redirect loop or are getting a 307 response code
-        # then you need to force the nginx ingress to connect to the backend using HTTPS.
-        # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-
-        # https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-2-ssl-termination-at-ingress-controller
-        # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        # nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      # annotations:
+      #   ingress.cilium.io/force-https: "disabled"
       tls: true
 
     # If TLS is terminated by IngressController, need to add ingress for gRPC
     ingressGrpc:
       enabled: true
       ingressClassName: cilium
-      annotations:
-        ingress.cilium.io/force-https: "disabled"
+      # annotations:
+      #   ingress.cilium.io/force-https: "disabled"
       tls: true
 
   # https://github.com/jkroepke/helm-secrets/wiki/ArgoCD-Integration#option-1-custom-docker-image
