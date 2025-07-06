@@ -21,6 +21,6 @@ argo-cd:
 appsApp:
   enabled: true
   env: local
-  repoURL: git@github.com:quannt24/code-monkey-apps-ops.git
+  repoURL: https://github.com/quannt24/code-monkey-apps-ops.git
   targetRevision: trunk
   path: helm-chart
