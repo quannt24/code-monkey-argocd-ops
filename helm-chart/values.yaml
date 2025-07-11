@@ -68,7 +68,17 @@ argo-cd:
       - mountPath: /helm-secrets-private-keys/
         name: helm-secrets-private-keys
 
+  repositories:
+    grafana-repo:
+      url: https://grafana.github.io/helm-charts
+      type: helm
+      name: grafana
+      # If using a private repo, add credentials here
+      # username: <username>
+      # password: <password>
+
 appsApp:
+  # Should be enabled in environment specific values file
   enabled: false
   # Environent specific parameters
   # env: local
